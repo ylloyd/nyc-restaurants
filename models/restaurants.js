@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 
 const RestaurantsSchema = new mongoose.Schema({
   address: {
@@ -22,5 +23,7 @@ const RestaurantsSchema = new mongoose.Schema({
   name: { type: String, default: '' },
   restaurant_id: { type: String, default: '' }
 });
+
+RestaurantsSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('Restaurant', RestaurantsSchema);
