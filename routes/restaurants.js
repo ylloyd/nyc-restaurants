@@ -10,9 +10,9 @@ const Restaurants = mongoose.model('Restaurant');
 
 /* GET restaurants listing. */
 router.get('/', function(req, res, next) {
-	Restaurants.find().exec().then((res) => {
-		console.log(res);
-		res.render('restaurants/index', {});
+	Restaurants.find().exec().then((restaurants) => {
+		console.log(restaurants);
+		res.render('restaurants/index', {restaurants});
 	});
 		
 });

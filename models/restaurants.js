@@ -4,8 +4,8 @@ const RestaurantsSchema = new mongoose.Schema({
   address: {
      building: { type: String, default: '' },
      coord: [
-     	{ type: Double, default: ''},
-     	{ type: Double, default: '' }
+     	{ type: Number, default: ''},
+     	{ type: Number, default: '' }
      ],
      street: { type: String, default: '' },
      zipcode: { type: String, default: '' }
@@ -16,7 +16,7 @@ const RestaurantsSchema = new mongoose.Schema({
      {
      	date: { type: String, default: '' },
      	grade: { type: String, default: '' },
-     	score: { type: INT, default: '' }
+     	score: { type: Number, default: '' }
      }
   ],
   name: { type: String, default: '' },

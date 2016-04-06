@@ -1,4 +1,6 @@
 extends ../layout
 
 block content
-  div Content here...
+  div
+    for restaurant in restaurants
+      div= restaurant.address
