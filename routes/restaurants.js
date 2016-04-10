@@ -31,25 +31,14 @@ router.get('/:page', function(req, res, next) {
 
 /* GET specific restaurant. */
 router.get('/view/:restaurant_id', function(req, res, next) {
-	Restaurants.find({restaurant_id:req.params.restaurant_id}).then((restaurant) => {
-		console.log(restaurant);
+	Restaurant.find({_id:req.params.restaurant_id}).then((restaurant) => {
+		console.log('req.params.restaurant_id', req.params.restaurant_id);
+		console.log('restaurant', restaurant);
 		res.render('restaurants/restaurant', {restaurant});
 	}), ((err) => {
 		console.log(err)
 	});
 });
 
-router.get('/view/:id', (req, res, next) => {
-    console.log(req.params.id)
-    Restaurant.findById(req.params.id, function (err, restaurant) {
-      if (err) console.log(err);
-      if (restaurant) {
-        res.render('restaurants/view',restaurant)
-      } else{
-        res.json({status:404, 'message': 'Did not found user with that password'});
-      }
-    })
-
-})
 
 module.exports = router;
