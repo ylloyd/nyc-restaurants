@@ -1,4 +1,10 @@
 extends ../layout
 
 block content
-  div Content here...
+  div
+    for restaurant in restaurants.docs
+      div= restaurant.address
+        a(href='/restaurants/view/' + restaurant.restaurant_id) page
+    - var current_page = parseInt(restaurants.page, 10)
+    - var next = parseInt(1, 10)
+    a(href='/restaurants/' + (current_page+next))= current_page+next
