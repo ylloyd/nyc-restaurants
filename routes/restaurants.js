@@ -6,6 +6,8 @@ const Comment = require('../models/comment');
 
 const mongoose = require('mongoose');
 const Restaurants = mongoose.model('Restaurant');
+const moment = require('moment');
+const _ = require('lodash');
 
 // Model available :
 // eg. Restaurant.find({...}).exec().then(...)
@@ -37,7 +39,10 @@ router.get('/view/:restaurant_id', function(req, res, next) {
 		.findOne({restaurant_id:req.params.restaurant_id})
 		.populate('comments')
 		.then(
-			(restaurant) => res.render('restaurants/restaurant', {restaurant}), 
+			(restaurant) => {
+				_.each(restaurant.grades, (g) => g.date = moment(g.date).format('DD/MM/YYYY'));
+				res.render('restaurants/restaurant', {restaurant});
+			}, 
 			(err) => console.log(err) 
 		);
 });
