@@ -3,8 +3,37 @@ extends ../layout
 block content
   div
     for restaurant in restaurants.docs
-      div= restaurant.address
+      div= restaurant
         a(href='/restaurants/view/' + restaurant.restaurant_id) page
     - var current_page = parseInt(restaurants.page, 10)
     - var next = parseInt(1, 10)
-    a(href='/restaurants/' + (current_page+next))= current_page+next
+    div(class='pagination')
+      a(href='/restaurants')= 'First'
+      a(href='/restaurants/' + (current_page-parseInt(1, 10)))= 'Previous'
+      if current_page > 6
+        a= '...'
+      if current_page > 5
+        a(href='/restaurants/' + (current_page-parseInt(5, 10)))= (current_page-parseInt(5, 10))
+      if current_page > 4
+        a(href='/restaurants/' + (current_page-parseInt(4, 10)))= (current_page-parseInt(4, 10))
+      if current_page > 3
+        a(href='/restaurants/' + (current_page-parseInt(3, 10)))= (current_page-parseInt(3, 10))
+      if current_page > 2
+        a(href='/restaurants/' + (current_page-parseInt(2, 10)))= (current_page-parseInt(2, 10))
+      if current_page > 1
+        a(href='/restaurants/' + (current_page-parseInt(1, 10)))= (current_page-parseInt(1, 10))
+      a(href='/restaurants/' + (current_page), style='color:red')= (current_page)
+      if restaurants.pages >= (current_page+parseInt(1, 10))
+        a(href='/restaurants/' + (current_page+parseInt(1, 10)))= (current_page+parseInt(1, 10))
+      if restaurants.pages >= (current_page+parseInt(2, 10))
+        a(href='/restaurants/' + (current_page+parseInt(2, 10)))= (current_page+parseInt(2, 10))
+      if restaurants.pages >= (current_page+parseInt(3, 10))
+        a(href='/restaurants/' + (current_page+parseInt(3, 10)))= (current_page+parseInt(3, 10))
+      if restaurants.pages >= (current_page+parseInt(4, 10))
+        a(href='/restaurants/' + (current_page+parseInt(4, 10)))= (current_page+parseInt(4, 10))
+      if restaurants.pages >= (current_page+parseInt(5, 10))
+        a(href='/restaurants/' + (current_page+parseInt(5, 10)))= (current_page+parseInt(5, 10))
+      if current_page < 2531
+        a= '...'
+      a(href='/restaurants/' + (current_page+parseInt(1, 10)))= 'Next'
+      a(href='/restaurants/' + restaurants.pages)= 'Last'
