@@ -2,3 +2,12 @@ extends ../layout
 
 block content
   div Restaurant page
+  pre=JSON.stringify(restaurant)
+  h1 ##{restaurant.restaurant_id} #{restaurant.name}
+  p #{restaurant.cuisine}
+  div
+    for g in restaurant.grades
+      p Score #{g.score} - Grade #{g.grade} #{g.date}
+  p #{restaurant.address.street} - #{restaurant.address.zipcode}
+  iframe(width='600', height='450', frameborder='0', style='border:0', src='https://www.google.com/maps/embed/v1/view?key=AIzaSyCDKcnD3IyParpo7iiBlPrFlXrTgFP6hQU\
+  &center=' + restaurant.address.coord[1] + ',' +restaurant.address.coord[0] + '&zoom=18', allowfullscreen='')

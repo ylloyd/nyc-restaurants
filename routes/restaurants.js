@@ -31,13 +31,12 @@ router.get('/:page', function(req, res, next) {
 
 /* GET specific restaurant. */
 router.get('/view/:restaurant_id', function(req, res, next) {
-	Restaurant.find({_id:req.params.restaurant_id}).then((restaurant) => {
-		console.log('req.params.restaurant_id', req.params.restaurant_id);
-		console.log('restaurant', restaurant);
-		res.render('restaurants/restaurant', {restaurant});
-	}), ((err) => {
-		console.log(err)
-	});
+	Restaurant
+		.findOne({restaurant_id:req.params.restaurant_id})
+		.then(
+			(restaurant) => res.render('restaurants/restaurant', {restaurant}), 
+			(err) => console.log(err) 
+		);
 });
 
 
