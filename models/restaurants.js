@@ -21,7 +21,8 @@ const RestaurantsSchema = new mongoose.Schema({
      }
   ],
   name: { type: String, default: '' },
-  restaurant_id: { type: String, default: '' }
+  restaurant_id: { type: String, default: '' },
+  comments : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
 });
 
 RestaurantsSchema.plugin(mongoosePaginate);

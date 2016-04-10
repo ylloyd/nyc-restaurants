@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var Restaurant = require('../models/restaurants');
 
+const Comment = require('../models/comment');
+
 const mongoose = require('mongoose');
 const Restaurants = mongoose.model('Restaurant');
 
@@ -33,11 +35,40 @@ router.get('/:page', function(req, res, next) {
 router.get('/view/:restaurant_id', function(req, res, next) {
 	Restaurant
 		.findOne({restaurant_id:req.params.restaurant_id})
+		.populate('comments')
 		.then(
 			(restaurant) => res.render('restaurants/restaurant', {restaurant}), 
 			(err) => console.log(err) 
 		);
 });
+
+
+router.post('/view/:restaurant_id', function(req,res){
+	// Pyramid pattern spotted -> to refactor ?
+	Comment
+		.create(req.body,(err, comment) => {
+			if(err) console.log('ERROR :', err)
+		})
+		.then(comment => {
+			// Double Query Mongo-> need to refactor
+			Restaurant
+				.update(
+				  { restaurant_id: req.params.restaurant_id},
+				  { $push:{ "comments": comment._id}},
+				  { upsert:true }
+				 )
+				.exec()
+			Restaurant
+				.findOne({ restaurant_id: req.params.restaurant_id})
+				.populate('comments')
+				.then(
+					(restaurant) => res.render('restaurants/restaurant', {restaurant}), 
+					(err) => console.log(err) 
+				);		
+		})
+
+
+})
 
 
 module.exports = router;

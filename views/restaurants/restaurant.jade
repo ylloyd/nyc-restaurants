@@ -11,3 +11,16 @@ block content
   p #{restaurant.address.street} - #{restaurant.address.zipcode}
   iframe(width='600', height='450', frameborder='0', style='border:0', src='https://www.google.com/maps/embed/v1/view?key=AIzaSyCDKcnD3IyParpo7iiBlPrFlXrTgFP6hQU\
   &center=' + restaurant.address.coord[1] + ',' +restaurant.address.coord[0] + '&zoom=18', allowfullscreen='')
+  
+  h2 Commentaires
+  div
+    for c in restaurant.comments
+      p Auteur : #{c.author}
+      p Commentaire : #{c.body}
+      hr
+  div
+    form(action="" method="post")
+      label Votre nom :
+        input(type="text" name="author")
+      textarea(name="body", cols="30", rows="10" placeholder="Votre commentaire...")
+      input(type="submit")
