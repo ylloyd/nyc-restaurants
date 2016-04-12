@@ -2,48 +2,70 @@ extends ../layout
 
 block content
   div
-    for restaurant in restaurants.docs
-      div= restaurant
-        a(href='/restaurants/view/' + restaurant.restaurant_id) page
-  div
-    select(onchange="location = this.value;")
-      for cuisine in cuisines
-        option(value='/restaurants?cuisine=' + cuisine)= cuisine
-  div
-    select(onchange="location = this.value;")
-      for borough in boroughs
-        option(value='/restaurants?borough=' + borough)= borough
-  - var current_page = parseInt(restaurants.page, 10)
-  - var next = parseInt(1, 10)
-  div(class='pagination')
-    - var pageCuisine = (thisCuisine ? "?cuisine=" + thisCuisine : '')
-    - var pageBorough = (thisBorough ? "?borough=" + thisBorough : '')
-    a(href='/restaurants' + pageCuisine + pageBorough)= 'First'
-    a(href='/restaurants?p=' + (current_page-parseInt(1, 10)) + pageCuisine + pageBorough)= 'Previous'
-    if current_page > 6
-      a= '...'
-    if current_page > 5
-      a(href='/restaurants?p=' + (current_page-parseInt(5, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(5, 10))
-    if current_page > 4
-      a(href='/restaurants?p=' + (current_page-parseInt(4, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(4, 10))
-    if current_page > 3
-      a(href='/restaurants?p=' + (current_page-parseInt(3, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(3, 10))
-    if current_page > 2
-      a(href='/restaurants?p=' + (current_page-parseInt(2, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(2, 10))
-    if current_page > 1
-      a(href='/restaurants?p=' + (current_page-parseInt(1, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(1, 10))
-    a(href='/restaurants?p=' + (current_page), style='color:red')= (current_page)
-    if restaurants.pages >= (current_page+parseInt(1, 10))
-      a(href='/restaurants?p=' + (current_page+parseInt(1, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(1, 10))
-    if restaurants.pages >= (current_page+parseInt(2, 10))
-      a(href='/restaurants?p=' + (current_page+parseInt(2, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(2, 10))
-    if restaurants.pages >= (current_page+parseInt(3, 10))
-      a(href='/restaurants?p=' + (current_page+parseInt(3, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(3, 10))
-    if restaurants.pages >= (current_page+parseInt(4, 10))
-      a(href='/restaurants?p=' + (current_page+parseInt(4, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(4, 10))
-    if restaurants.pages >= (current_page+parseInt(5, 10))
-      a(href='/restaurants?p=' + (current_page+parseInt(5, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(5, 10))
-    if current_page < 2516
-      a= '...'
-    a(href='/restaurants?p=' + (current_page+parseInt(1, 10)) + pageCuisine + pageBorough)= 'Next'
-    a(href='/restaurants?p=' + restaurants.pages + pageCuisine + pageBorough)= 'Last'
+    if restaurants.total == 0
+      div
+        p No restaurant found
+    else
+      for restaurant in restaurants.docs
+        div= restaurant
+          a(href='/restaurants/view/' + restaurant.restaurant_id) page
+      div
+        select(onchange="location = this.value;")
+          for cuisine in cuisines
+            option(value='/restaurants?cuisine=' + cuisine)= cuisine
+      div
+        select(onchange="location = this.value;")
+          for borough in boroughs
+            option(value='/restaurants?borough=' + borough)= borough
+      - var current_page = parseInt(restaurants.page, 10)
+      - var next = parseInt(1, 10)
+      div(class='pagination')
+        // - var pageCuisine = (thisCuisine ? "&cuisine=" + thisCuisine : '')
+        // - var pageBorough = (thisBorough ? "&borough=" + thisBorough : '')
+        - var pageCuisine
+        if thisCuisine
+          if thisPage
+            - pageCuisine = "&cuisine=" + thisCuisine
+          else
+            - pageCuisine = "?cuisine=" + thisCuisine
+        else
+          - pageCuisine = ''
+        - var pageBorough
+        if thisCuisine
+          if thisPage
+            - pageBorough = "&borough=" + thisCuisine
+          else
+            - pageBorough = "?borough=" + thisCuisine
+        else
+          - pageBorough = ''
+        if current_page != 1
+          a(href='/restaurants' + pageCuisine + pageBorough)= 'First'
+          a(href='/restaurants?p=' + (current_page-parseInt(1, 10)) + pageCuisine + pageBorough)= 'Previous'
+        if current_page > 6
+          a= '...'
+        if current_page > 5
+          a(href='/restaurants?p=' + (current_page-parseInt(5, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(5, 10))
+        if current_page > 4
+          a(href='/restaurants?p=' + (current_page-parseInt(4, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(4, 10))
+        if current_page > 3
+          a(href='/restaurants?p=' + (current_page-parseInt(3, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(3, 10))
+        if current_page > 2
+          a(href='/restaurants?p=' + (current_page-parseInt(2, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(2, 10))
+        if current_page > 1
+          a(href='/restaurants?p=' + (current_page-parseInt(1, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(1, 10))
+        a(href='/restaurants?p=' + (current_page), style='color:red')= (current_page)
+        if restaurants.pages >= (current_page+parseInt(1, 10))
+          a(href='/restaurants?p=' + (current_page+parseInt(1, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(1, 10))
+        if restaurants.pages >= (current_page+parseInt(2, 10))
+          a(href='/restaurants?p=' + (current_page+parseInt(2, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(2, 10))
+        if restaurants.pages >= (current_page+parseInt(3, 10))
+          a(href='/restaurants?p=' + (current_page+parseInt(3, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(3, 10))
+        if restaurants.pages >= (current_page+parseInt(4, 10))
+          a(href='/restaurants?p=' + (current_page+parseInt(4, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(4, 10))
+        if restaurants.pages >= (current_page+parseInt(5, 10))
+          a(href='/restaurants?p=' + (current_page+parseInt(5, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(5, 10))
+        if current_page < 2516
+          a= '...'
+        if current_page != restaurants.pages
+          a(href='/restaurants?p=' + (current_page+parseInt(1, 10)) + pageCuisine + pageBorough)= 'Next'
+          a(href='/restaurants?p=' + restaurants.pages + pageCuisine + pageBorough)= 'Last'

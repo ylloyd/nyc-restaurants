@@ -28,7 +28,6 @@ router.get('/', function(req, res, next) {
   };
   if (thisCuisine) {objectQuery.cuisine = thisCuisine.toString()};
   if (thisBorough) objectQuery.borough = thisBorough.toString();
-  console.log(objectQuery);
   Restaurants.paginate(objectQuery, {limit: 10, sort: 'name', page: thisPage}).then((restaurants) => {
     resto = restaurants;
     return getFilter('cuisine');
@@ -36,23 +35,9 @@ router.get('/', function(req, res, next) {
     cuisines = allCuisine;
     return getFilter('borough');
   }).then((boroughs) => {
-    res.render('restaurants/index', {restaurants: resto, cuisines, boroughs, thisCuisine, thisBorough});
+    res.render('restaurants/index', {restaurants: resto, cuisines, boroughs, thisPage, thisCuisine, thisBorough});
   });
 });
-
-
-// /* GET restaurants listing for page n. */
-// router.get('/:page', function(req, res, next) {
-//   //console.log(next);
-//   Restaurants.paginate({}, {limit:10, sort:'name', page:req.params.page}).then((restaurants) => {
-//     //console.log(restaurants);
-//     res.render('restaurants/index', {restaurants});
-//   }, (err) => {
-//     console.log(err)
-//   });
-// });
-
-
 
 /* GET specific restaurant. */
 router.get('/view/:restaurant_id', function(req, res, next) {
