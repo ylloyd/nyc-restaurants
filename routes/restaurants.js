@@ -19,15 +19,24 @@ const getFilter = ((filter) => {
 /* GET restaurants listing for page n using query string. */
 router.get('/', function(req, res, next) {
   let resto;
+  let cuisines;
   let thisPage = req.query.p ? req.query.p : 1;
-  Restaurants.paginate({name: {$ne: ''}}, {limit:10, sort:'name', page: thisPage}).then((restaurants) => {
+  let thisCuisine = req.query.cuisine;
+  let thisBorough = req.query.borough;
+  let objectQuery = {
+    name: {$ne: ''}
+  };
+  if (thisCuisine) objectQuery.cuisine = thisCuisine.toString();
+  if (thisBorough) objectQuery.borough = thisBorough.toString();
+  console.log(objectQuery);
+  Restaurants.paginate(objectQuery, {limit: 10, sort: 'name', page: thisPage}).then((restaurants) => {
     resto = restaurants;
-    console.log(restaurants);
     return getFilter('cuisine');
-    //res.render('restaurants/index', {restaurants});
-  }).then((cuisines) => {
-    //console.log(cuisines);
-    res.render('restaurants/index', {restaurants: resto, cuisines});
+  }).then((allCuisine) => {
+    cuisines = allCuisine;
+    return getFilter('borough');
+  }).then((boroughs) => {
+    res.render('restaurants/index', {restaurants: resto, cuisines, boroughs});
   });
 });
 
