@@ -9,31 +9,31 @@ block content
     - var next = parseInt(1, 10)
     div(class='pagination')
       a(href='/restaurants')= 'First'
-      a(href='/restaurants/' + (current_page-parseInt(1, 10)))= 'Previous'
+      a(href='/restaurants?p=' + (current_page-parseInt(1, 10)))= 'Previous'
       if current_page > 6
         a= '...'
       if current_page > 5
-        a(href='/restaurants/' + (current_page-parseInt(5, 10)))= (current_page-parseInt(5, 10))
+        a(href='/restaurants?p=' + (current_page-parseInt(5, 10)))= (current_page-parseInt(5, 10))
       if current_page > 4
-        a(href='/restaurants/' + (current_page-parseInt(4, 10)))= (current_page-parseInt(4, 10))
+        a(href='/restaurants?p=' + (current_page-parseInt(4, 10)))= (current_page-parseInt(4, 10))
       if current_page > 3
-        a(href='/restaurants/' + (current_page-parseInt(3, 10)))= (current_page-parseInt(3, 10))
+        a(href='/restaurants?p=' + (current_page-parseInt(3, 10)))= (current_page-parseInt(3, 10))
       if current_page > 2
-        a(href='/restaurants/' + (current_page-parseInt(2, 10)))= (current_page-parseInt(2, 10))
+        a(href='/restaurants?p=' + (current_page-parseInt(2, 10)))= (current_page-parseInt(2, 10))
       if current_page > 1
-        a(href='/restaurants/' + (current_page-parseInt(1, 10)))= (current_page-parseInt(1, 10))
-      a(href='/restaurants/' + (current_page), style='color:red')= (current_page)
+        a(href='/restaurants?p=' + (current_page-parseInt(1, 10)))= (current_page-parseInt(1, 10))
+      a(href='/restaurants?p=' + (current_page), style='color:red')= (current_page)
       if restaurants.pages >= (current_page+parseInt(1, 10))
-        a(href='/restaurants/' + (current_page+parseInt(1, 10)))= (current_page+parseInt(1, 10))
+        a(href='/restaurants?p=' + (current_page+parseInt(1, 10)))= (current_page+parseInt(1, 10))
       if restaurants.pages >= (current_page+parseInt(2, 10))
-        a(href='/restaurants/' + (current_page+parseInt(2, 10)))= (current_page+parseInt(2, 10))
+        a(href='/restaurants?p=' + (current_page+parseInt(2, 10)))= (current_page+parseInt(2, 10))
       if restaurants.pages >= (current_page+parseInt(3, 10))
-        a(href='/restaurants/' + (current_page+parseInt(3, 10)))= (current_page+parseInt(3, 10))
+        a(href='/restaurants?p=' + (current_page+parseInt(3, 10)))= (current_page+parseInt(3, 10))
       if restaurants.pages >= (current_page+parseInt(4, 10))
-        a(href='/restaurants/' + (current_page+parseInt(4, 10)))= (current_page+parseInt(4, 10))
+        a(href='/restaurants?p=' + (current_page+parseInt(4, 10)))= (current_page+parseInt(4, 10))
       if restaurants.pages >= (current_page+parseInt(5, 10))
-        a(href='/restaurants/' + (current_page+parseInt(5, 10)))= (current_page+parseInt(5, 10))
+        a(href='/restaurants?p=' + (current_page+parseInt(5, 10)))= (current_page+parseInt(5, 10))
       if current_page < 2531
         a= '...'
-      a(href='/restaurants/' + (current_page+parseInt(1, 10)))= 'Next'
-      a(href='/restaurants/' + restaurants.pages)= 'Last'
+      a(href='/restaurants?p=' + (current_page+parseInt(1, 10)))= 'Next'
+      a(href='/restaurants?p=' + restaurants.pages)= 'Last'

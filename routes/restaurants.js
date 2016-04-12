@@ -1,3 +1,5 @@
+"use strict";
+
 var express = require('express');
 var router = express.Router();
 var Restaurant = require('../models/restaurants');
@@ -8,37 +10,38 @@ const Restaurants = mongoose.model('Restaurant');
 // Model available :
 // eg. Restaurant.find({...}).exec().then(...)
 
-const getFilter = ((filter) => {  /* GET restaurants listing for page n. */   
-  Restaurants.find().distinct(filter).sort().exec().then((myFilter) => {
-      //console.log(myFilter);
-      return myFilter;
-    }), ((err) => {
-      console.log(err)
-    });
+/* Filter to get all type of cuisines and every borough */
+const getFilter = ((filter) => {  
+  return Restaurants.find().distinct(filter).sort().exec();
 });
 
 
-/* GET restaurants listing for page 1. */
+/* GET restaurants listing for page n using query string. */
 router.get('/', function(req, res, next) {
-  Restaurants.paginate({},{limit:10, sort:'name'}).then((restaurants) => {
-    const cuisines = getFilter('cuisine');
-    console.log(cuisines);
-    res.render('restaurants/index', {restaurants});
-  }), ((err) => {
-    console.log(err)
+  let resto;
+  let thisPage = req.query.p ? req.query.p : 1;
+  Restaurants.paginate({name: {$ne: ''}}, {limit:10, sort:'name', page: thisPage}).then((restaurants) => {
+    resto = restaurants;
+    console.log(restaurants);
+    return getFilter('cuisine');
+    //res.render('restaurants/index', {restaurants});
+  }).then((cuisines) => {
+    //console.log(cuisines);
+    res.render('restaurants/index', {restaurants: resto, cuisines});
   });
 });
 
-/* GET restaurants listing for page n. */
-router.get('/:page', function(req, res, next) {
-  //console.log(next);
-  Restaurants.paginate({},{limit:10, sort:'name', page:req.params.page}).then((restaurants) => {
-    //console.log(restaurants);
-    res.render('restaurants/index', {restaurants});
-  }), ((err) => {
-    console.log(err)
-  });
-});
+
+// /* GET restaurants listing for page n. */
+// router.get('/:page', function(req, res, next) {
+//   //console.log(next);
+//   Restaurants.paginate({}, {limit:10, sort:'name', page:req.params.page}).then((restaurants) => {
+//     //console.log(restaurants);
+//     res.render('restaurants/index', {restaurants});
+//   }, (err) => {
+//     console.log(err)
+//   });
+// });
 
 
 
