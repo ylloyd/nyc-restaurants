@@ -1,0 +1,34 @@
+extends ../layout
+
+block content
+  div Restaurant page
+  .container
+    .row
+      .panel.panel-default
+        .col-xs-8
+          h1 ##{restaurant.restaurant_id} #{restaurant.name}
+          p #{restaurant.cuisine} - #{restaurant.borough}
+          p #{restaurant.address.street} - #{restaurant.address.zipcode}
+          iframe(width='600', height='450', frameborder='0', style='border:0', src='https://www.google.com/maps/embed/v1/view?key=AIzaSyCDKcnD3IyParpo7iiBlPrFlXrTgFP6hQU\
+          &center=' + restaurant.address.coord[1] + ',' +restaurant.address.coord[0] + '&zoom=18', allowfullscreen='')
+        .col-xs-4
+          .panel.panel-default
+            for g in restaurant.grades
+              p Score #{g.score} - Grade #{g.grade} (#{g.date})
+    .row  
+      h2 Commentaires
+      div
+        for c in restaurant.comments
+          p Auteur : #{c.author}
+          p Commentaire : #{c.body}
+          hr
+    .row
+      h2 Ajouter un commentaire
+      .col-xs-12
+        form(action="" method="post")
+          .form-group
+            label Votre nom :
+              input(type="text" name="author")
+          .form-group
+            textarea(name="body", cols="30", rows="10" placeholder="Votre commentaire...")
+          input.btn.btn-default.btn-success.btn-lg(type="submit")
