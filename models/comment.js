@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 const commentSchema = new Schema({
   author: String,
   body:   String,
-  createdDate: { type: Date, default: Date.now }
+  createdDate: { type: Date, default: Date.now },
+  etab: { type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' }
 });
 
 module.exports = mongoose.model('Comment', commentSchema);
