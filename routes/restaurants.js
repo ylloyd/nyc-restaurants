@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
   let objectQuery = {
     name: {$ne: ''}
   };
-  if (thisCuisine) objectQuery.cuisine = thisCuisine.toString();
+  if (thisCuisine) {objectQuery.cuisine = thisCuisine.toString()};
   if (thisBorough) objectQuery.borough = thisBorough.toString();
   console.log(objectQuery);
   Restaurants.paginate(objectQuery, {limit: 10, sort: 'name', page: thisPage}).then((restaurants) => {
@@ -36,7 +36,7 @@ router.get('/', function(req, res, next) {
     cuisines = allCuisine;
     return getFilter('borough');
   }).then((boroughs) => {
-    res.render('restaurants/index', {restaurants: resto, cuisines, boroughs});
+    res.render('restaurants/index', {restaurants: resto, cuisines, boroughs, thisCuisine, thisBorough});
   });
 });
 
