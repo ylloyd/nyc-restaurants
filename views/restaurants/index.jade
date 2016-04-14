@@ -1,71 +1,94 @@
 extends ../layout
 
 block content
-  div
+  div(class="col-md-10 col-md-offset-1")
     if restaurants.total == 0
       div
         p No restaurant found
     else
-      for restaurant in restaurants.docs
-        div= restaurant
-          a(href='/restaurants/view/' + restaurant.restaurant_id) page
-      div
-        select(onchange="location = this.value;")
-          for cuisine in cuisines
-            option(value='/restaurants?cuisine=' + cuisine)= cuisine
-      div
-        select(onchange="location = this.value;")
-          for borough in boroughs
-            option(value='/restaurants?borough=' + borough)= borough
+      - var myCuisine = (thisCuisine ? "&cuisine=" + thisCuisine : '')
+      - var myBorough = (thisBorough ? "&borough=" + thisBorough : '')
+      div(class="clearfix")
+        div(class="pull-right")
+          span
+            select(onchange="location = this.value;")
+              for cuisine in cuisines
+                option(value='/restaurants?cuisine=' + cuisine + myBorough)= cuisine
+          span
+            select(onchange="location = this.value;")
+              for borough in boroughs
+                option(value='/restaurants?borough=' + borough + myCuisine)= borough
+          span
+            if (thisCuisine || thisBorough)
+              a(href="/restaurants") Reset filter
+            else
+              a Reset filter
+        table(class="table table-bordered table-hover")
+          thead
+            tr
+              th #
+              th Name
+              th Borough
+              th Cuisine
+              //- Handle increment of restaurant rank
+              - var i = parseInt(restaurants.page, 10) *10-10
+              for restaurant in restaurants.docs
+                div
+                  tbody
+                    tr
+                      th(scope="row")= i + parseInt(1, 10)
+                      td
+                        a(href='/restaurants/view/' + restaurant.restaurant_id)= restaurant.name
+                      td= restaurant.borough
+                      td= restaurant.cuisine
+                      - i++
       - var current_page = parseInt(restaurants.page, 10)
       - var next = parseInt(1, 10)
-      div(class='pagination')
-        // - var pageCuisine = (thisCuisine ? "&cuisine=" + thisCuisine : '')
-        // - var pageBorough = (thisBorough ? "&borough=" + thisBorough : '')
+      div(class='pagination center-block text-center')
         - var pageCuisine
         if thisCuisine
           if thisPage
             - pageCuisine = "&cuisine=" + thisCuisine
-          else
-            - pageCuisine = "?cuisine=" + thisCuisine
+          else 
+            - pageCuisine = "&borough=" + thisBorough
         else
           - pageCuisine = ''
         - var pageBorough
-        if thisCuisine
+        if thisBorough
           if thisPage
-            - pageBorough = "&borough=" + thisCuisine
+            - pageBorough = "&borough=" + thisBorough
           else
-            - pageBorough = "?borough=" + thisCuisine
+            - pageBorough = "?borough=" + thisBorough
         else
           - pageBorough = ''
         if current_page != 1
-          a(href='/restaurants' + pageCuisine + pageBorough)= 'First'
-          a(href='/restaurants?p=' + (current_page-parseInt(1, 10)) + pageCuisine + pageBorough)= 'Previous'
+          a(href='/restaurants?p=1' + pageCuisine + pageBorough role="button" class="btn btn-default")= 'First'
+          a(href='/restaurants?p=' + (current_page-parseInt(1, 10)) + pageCuisine + pageBorough role="button" class="btn btn-default")= 'Previous'
         if current_page > 6
-          a= '...'
+          a(role="button" class="btn btn-default")= '...'
         if current_page > 5
-          a(href='/restaurants?p=' + (current_page-parseInt(5, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(5, 10))
+          a(href='/restaurants?p=' + (current_page-parseInt(5, 10)) + pageCuisine + pageBorough role="button" class="btn btn-default")= (current_page-parseInt(5, 10))
         if current_page > 4
-          a(href='/restaurants?p=' + (current_page-parseInt(4, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(4, 10))
+          a(href='/restaurants?p=' + (current_page-parseInt(4, 10)) + pageCuisine + pageBorough role="button" class="btn btn-default")= (current_page-parseInt(4, 10))
         if current_page > 3
-          a(href='/restaurants?p=' + (current_page-parseInt(3, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(3, 10))
+          a(href='/restaurants?p=' + (current_page-parseInt(3, 10)) + pageCuisine + pageBorough role="button" class="btn btn-default")= (current_page-parseInt(3, 10))
         if current_page > 2
-          a(href='/restaurants?p=' + (current_page-parseInt(2, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(2, 10))
+          a(href='/restaurants?p=' + (current_page-parseInt(2, 10)) + pageCuisine + pageBorough role="button" class="btn btn-default")= (current_page-parseInt(2, 10))
         if current_page > 1
-          a(href='/restaurants?p=' + (current_page-parseInt(1, 10)) + pageCuisine + pageBorough)= (current_page-parseInt(1, 10))
-        a(href='/restaurants?p=' + (current_page), style='color:red')= (current_page)
+          a(href='/restaurants?p=' + (current_page-parseInt(1, 10)) + pageCuisine + pageBorough role="button" class="btn btn-default")= (current_page-parseInt(1, 10))
+        a(href='/restaurants?p=' + (current_page + pageCuisine + pageBorough), style='color:red' role="button" class="btn btn-default")= (current_page)
         if restaurants.pages >= (current_page+parseInt(1, 10))
-          a(href='/restaurants?p=' + (current_page+parseInt(1, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(1, 10))
+          a(href='/restaurants?p=' + (current_page+parseInt(1, 10)) + pageCuisine + pageBorough role="button" class="btn btn-default")= (current_page+parseInt(1, 10))
         if restaurants.pages >= (current_page+parseInt(2, 10))
-          a(href='/restaurants?p=' + (current_page+parseInt(2, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(2, 10))
+          a(href='/restaurants?p=' + (current_page+parseInt(2, 10)) + pageCuisine + pageBorough role="button" class="btn btn-default")= (current_page+parseInt(2, 10))
         if restaurants.pages >= (current_page+parseInt(3, 10))
-          a(href='/restaurants?p=' + (current_page+parseInt(3, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(3, 10))
+          a(href='/restaurants?p=' + (current_page+parseInt(3, 10)) + pageCuisine + pageBorough role="button" class="btn btn-default")= (current_page+parseInt(3, 10))
         if restaurants.pages >= (current_page+parseInt(4, 10))
-          a(href='/restaurants?p=' + (current_page+parseInt(4, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(4, 10))
+          a(href='/restaurants?p=' + (current_page+parseInt(4, 10)) + pageCuisine + pageBorough role="button" class="btn btn-default")= (current_page+parseInt(4, 10))
         if restaurants.pages >= (current_page+parseInt(5, 10))
-          a(href='/restaurants?p=' + (current_page+parseInt(5, 10)) + pageCuisine + pageBorough)= (current_page+parseInt(5, 10))
+          a(href='/restaurants?p=' + (current_page+parseInt(5, 10)) + pageCuisine + pageBorough role="button" class="btn btn-default")= (current_page+parseInt(5, 10))
         if current_page < 2516
-          a= '...'
+          a(role="button" class="btn btn-default")= '...'
         if current_page != restaurants.pages
-          a(href='/restaurants?p=' + (current_page+parseInt(1, 10)) + pageCuisine + pageBorough)= 'Next'
-          a(href='/restaurants?p=' + restaurants.pages + pageCuisine + pageBorough)= 'Last'
+          a(href='/restaurants?p=' + (current_page+parseInt(1, 10)) + pageCuisine + pageBorough role="button" class="btn btn-default")= 'Next'
+          a(href='/restaurants?p=' + restaurants.pages + pageCuisine + pageBorough role="button" class="btn btn-default")= 'Last'
