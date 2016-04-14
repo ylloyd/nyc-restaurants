@@ -1,8 +1,70 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+.filter-menu{
+  margin-bottom: 20px;
+}
+
+.filter-menu span{
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.reset-filter{
+  height: 20px;
+  line-height: 20px;
+}
+
+.button-filter{
+  border: 1px solid #9E9E9E;
+  background-color: rgba(158, 158, 158, 0.5);
+  transition: background-color linear 0.5s;
+  cursor: pointer;
+  padding: 0 5px;
+  color: white;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.button-filter:hover{
+  background-color: rgba(158, 158, 158, 1);
+  transition: background-color linear 0.5s;
+  color: white;
+  text-decoration: none;
+}
+
+.select-filter{
+  width: 120px;
+}
+
+.pagination a{
+	text-decoration: none;
+  color: white;
+}
+
+.button{
+	border: 1px solid #9E9E9E;
+	padding: 10px;
+  background-color: rgba(158, 158, 158, 0.5);
+  display: inline-block;
+  transition: background-color linear 0.5s;
+}
+
+.button:hover{
+  background-color: rgba(158, 158, 158, 1);
+  transition: background-color linear 0.5s;
+}
+
+.button.first{
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+
+.button.last{
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
 }
