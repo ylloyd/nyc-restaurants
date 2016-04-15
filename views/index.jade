@@ -3,6 +3,11 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  h2 Last Comments
-  for c in comments
-    p "#{c.body}" - #{c.author}
+  div
+    h2 10 best restaurants
+    for r in restaurants
+      p= r._id.name
+  div
+    h2 Last Comments
+    for c in comments
+      p= c.body
