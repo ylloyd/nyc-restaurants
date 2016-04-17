@@ -1,7 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const Restaurant = require('../models/restaurants');
-const Comment = require('../models/comment');
+"use strict";
+
+var express = require('express');
+var router = express.Router();
+var Restaurant = require('../models/restaurants');
+var Comment = require('../models/comment');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -38,21 +40,6 @@ router.get('/', function(req, res, next) {
                 bestRestaurants: data[1]
             });
         });
-
-    // Restaurant
-    //     .findOne({}, 'grades', function(err, restaurants) {
-            
-    //         Restaurant.aggregate([
-    //             { $match: { _id: restaurants._id } },
-    //             {
-    //                 $group: {
-    //                     _id: '$_id', 
-    //                     average: {$avg: '$grades.score'}
-    //                 }
-    //             }
-    //         ], function (err, result) {console.log(result)});
-    //     });
-
   
 });
 
