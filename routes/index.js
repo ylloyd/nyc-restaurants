@@ -9,6 +9,7 @@ var Comment = require('../models/comment');
 router.get('/', function(req, res, next) {
     const p1 = Comment
                     .find({})
+                    .populate('restaurant')
                     .sort('-createdDate')
                     .limit(10)
                     // .exec((err,comments) => res.render('index',{comments}))
@@ -23,6 +24,7 @@ router.get('/', function(req, res, next) {
                                     id:'$_id', 
                                     name:'$name',
                                     cuisine:'$cuisine', 
+                                    restaurant_id: '$restaurant_id'
                                 }, 
                                 average: {$avg: '$grades.score'}
                             }

@@ -4,7 +4,7 @@ const commentSchema = new Schema({
   author: String,
   body:   String,
   createdDate: { type: Date, default: Date.now },
-  etab: { type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' }
+  restaurant: { type: mongoose.Schema.Types.ObjectId, ref: 'Restaurant' }
 });
 
 module.exports = mongoose.model('Comment', commentSchema);

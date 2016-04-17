@@ -9,12 +9,17 @@ block content
         .panel.panel-default
           h2 Top 10 - best scores ( score moyen )
           for r in bestRestaurants
-            p #{r._id.name} (#{r._id.cuisine}) : #{r.average}
+            p 
+              a(href="restaurants/view/" + r._id.restaurant_id) #{r._id.name} 
+              | (#{r._id.cuisine}) : #{r.average}
+
       .col-md-6
         .panel.panel-default
           h2 Last Comments
           for c in comments
-            p "#{c.body}" - #{c.author}
+            p 
+              a(href="restaurants/view/" + c.restaurant.restaurant_id) #{c.restaurant.name}
+              |: "#{c.body}" - #{c.author}
 
 
 

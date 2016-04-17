@@ -55,23 +55,24 @@ router.get('/view/:restaurant_id', function(req, res, next) {
 			}, 
 			(err) => console.log(err) 
 		);
-	Restaurants.find({restaurant_id:req.params.restaurant_id}).then((restaurant) => {
-		console.log(restaurant);
-		res.render('restaurants/restaurant', {restaurant});
-	}), ((err) => {
-		console.log(err)
-	});
 });
 
 
+/**
+ * POST - Route to create a new comment for a restaurant
+ */
+
 router.post('/view/:restaurant_id', function(req,res){
-	// Pyramid pattern spotted -> to refactor ?
-	Comment
-		.create(req.body,(err, comment) => {
-			if(err) console.log('ERROR :', err)
+	Restaurant
+		.findOne({ restaurant_id: req.params.restaurant_id})
+		.then((restaurant) => {
+			const commentToCreate = Object.assign({},req.body,{restaurant})
+			return Comment.create(commentToCreate,(err, comment) => {
+							if(err) console.log('ERROR :', err)
+						});
 		})
-		.then(comment => {
-			// Double Query Mongo-> need to refactor
+		.then((comment) => {
+			// Need to find a proper way to return the updated restaurant
 			Restaurant
 				.update(
 				  { restaurant_id: req.params.restaurant_id},
@@ -87,8 +88,6 @@ router.post('/view/:restaurant_id', function(req,res){
 					(err) => console.log(err) 
 				);		
 		})
-
-
 })
 
 
